@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Sheep;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,8 +19,25 @@ class ProfileController extends Controller
         return inertia('Profile/Main');
     }
 
-    public function edit()
+    public function edit(Request $request)
     {
+        if($request->isMethod('post')) {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|lowercase|email|max:255|unique:'.Sheep::class,
+            ]);
+
+            Sheep::where('id', $request->id)
+                ->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone
+                ]);
+
+            return redirect()
+                ->to('/profile');
+        }
+
         return inertia('Profile/Edit');
     }
 

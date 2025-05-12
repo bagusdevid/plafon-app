@@ -1,14 +1,27 @@
 import SiteLayout from "@/Layouts/SiteLayout.jsx";
-import {FaCheck, FaUser} from "react-icons/fa6";
-import {Field, Input, Fieldset} from "@chakra-ui/react";
+import {FaCheck, FaMinus, FaUser} from "react-icons/fa6";
+import {Field, Input, Fieldset, Button} from "@chakra-ui/react";
 import {useContext} from "react";
 import {LayoutContext} from "@/Layouts/Layout.jsx";
-import {Link} from "@inertiajs/react";
+import {Link, useForm} from "@inertiajs/react";
 import {FiEdit} from "react-icons/fi";
 
 export default function Edit() {
 
     const {auth} = useContext(LayoutContext)
+
+    const initialValues = {
+        id: auth.user.id,
+        name: auth.user.name,
+        email: auth.user.email,
+        phone: auth.user.phone
+    }
+    const dataForm = useForm(initialValues)
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dataForm.post('/profile/edit')
+    }
 
     return <SiteLayout title="Profile">
         <div className="border-b border-solid border-b-neutral-300 pb-8">
@@ -16,14 +29,17 @@ export default function Edit() {
                 <FaUser />
             </div>
         </div>
+        <form onSubmit={handleSubmit}>
         <div className="flex justify-between items-center py-2 px-2 bg-neutral-100 mb-8">
             <div>
-                sa
+                <Link href="/profile" className="text-red-500">
+                    <FaMinus />
+                </Link>
             </div>
             <div>
-                <Link href="/profile/edit">
+                <Button type="submit" variant="ghost" size="sm" className="text-green-600">
                     <FaCheck />
-                </Link>
+                </Button>
             </div>
         </div>
         <Fieldset.Root size="lg">
@@ -31,6 +47,8 @@ export default function Edit() {
                 <Field.Root>
                     <Field.Label>Name</Field.Label>
                     <Input
+                        value={dataForm.data.name}
+                        onChange={(e) => dataForm.setData('name', e.target.value)}
                         type="text"
                         placeholder="Masukkan nama Anda"
                         className="w-full"
@@ -39,6 +57,8 @@ export default function Edit() {
                 <Field.Root>
                     <Field.Label>Email</Field.Label>
                     <Input
+                        value={dataForm.data.email}
+                        onChange={(e) => dataForm.setData('email', e.target.value)}
                         type="text"
                         placeholder="Masukkan nama Anda"
                         className="w-full"
@@ -47,6 +67,8 @@ export default function Edit() {
                 <Field.Root>
                     <Field.Label>Phone</Field.Label>
                     <Input
+                        value={dataForm.data.phone}
+                        onChange={(e) => dataForm.setData('phone', e.target.value)}
                         type="text"
                         placeholder="Masukkan nama Anda"
                         className="w-full"
@@ -54,5 +76,6 @@ export default function Edit() {
                 </Field.Root>
             </Fieldset.Content>
         </Fieldset.Root>
+        </form>
     </SiteLayout>
 }

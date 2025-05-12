@@ -8,9 +8,9 @@ import {Button} from "@chakra-ui/react";
 export default function Home() {
 
     const forYous = [
-        {icon: <FaUser />, url: '', caption: 'Profile'},
-        {icon: <FaDollarSign />, url: '#', caption: 'Top Up'},
-        {icon: <FaHistory />, url: '', caption: 'History'},
+        {icon: <FaUser />, url: '/profile', caption: 'Profile'},
+        {icon: <FaDollarSign />, url: '/top-up', caption: 'Top Up'},
+        {icon: <FaHistory />, url: '/', caption: 'History'},
     ];
 
     return <SiteLayout title="Home">
@@ -43,11 +43,11 @@ export default function Home() {
             </div>
             <div className="flex gap-5">
                 {forYous.map((fy, key) => {
-                    return <Link href={fy.url} className="text-center">
-                        <div className="px-7 py-5 border border-solid border-neutral-300 rounded-xl mb-1">
+                    return <Link href={fy.url} className="text-center group duration-300">
+                        <div className="px-7 py-5 border border-solid border-neutral-300 rounded-xl mb-1 group-hover:border-red-300 group-hover:text-red-500">
                             {fy.icon}
                         </div>
-                        <div className="text-[13px]">
+                        <div className="text-[13px] group-hover:text-red-500">
                             {fy.caption}
                         </div>
                     </Link>
@@ -63,52 +63,7 @@ export default function Home() {
                     Make sure you don't miss what benefit if you put your money to us.
                 </div>
                 <div>
-                    <Button>
-                        Top Up
-                    </Button>
-                </div>
-            </div>
-        </div>
-        <div className="mb-10 pb-5 border-b border-solid border-neutral-300">
-            <div className="font-semibold mb-5">
-                Top Up
-            </div>
-            <div className="flex gap-5 justify-between items-center">
-                <div className="w-1/2">
-                    Make sure you don't miss what benefit if you put your money to us.
-                </div>
-                <div>
-                    <Button>
-                        Top Up
-                    </Button>
-                </div>
-            </div>
-        </div>
-        <div className="mb-10 pb-5 border-b border-solid border-neutral-300">
-            <div className="font-semibold mb-5">
-                Top Up
-            </div>
-            <div className="flex gap-5 justify-between items-center">
-                <div className="w-1/2">
-                    Make sure you don't miss what benefit if you put your money to us.
-                </div>
-                <div>
-                    <Button>
-                        Top Up
-                    </Button>
-                </div>
-            </div>
-        </div>
-        <div className="mb-10 pb-5 border-b border-solid border-neutral-300">
-            <div className="font-semibold mb-5">
-                Top Up
-            </div>
-            <div className="flex gap-5 justify-between items-center">
-                <div className="w-1/2">
-                    Make sure you don't miss what benefit if you put your money to us.
-                </div>
-                <div>
-                    <Button>
+                    <Button as={Link} href="/top-up">
                         Top Up
                     </Button>
                 </div>

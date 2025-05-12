@@ -32,8 +32,8 @@ export default function Login() {
                 </div>
                 <div>
                     <h2 className="text-[28px]">
-                        <span className="font-bold">Bagus</span>
-                        <span className="font-light">Dev</span>
+                        <span className="font-light">bagus</span>
+                        <span className="font-bold">dev.</span>
                     </h2>
                 </div>
             </div>
