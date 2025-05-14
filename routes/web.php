@@ -13,7 +13,7 @@ use Inertia\Inertia;
 //        'phpVersion' => PHP_VERSION,
 //    ]);
 //});
-Route::middleware('auth')->group(function () {
+Route::middleware([\App\Http\Middleware\CheckDomainIsValid::class, 'auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index']);
     Route::match(['get','post'],'/profile/edit', [\App\Http\Controllers\ProfileController::class, 'edit']);
@@ -21,8 +21,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });
 
-Route::match(['get','post'], '/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
-Route::match(['get','post'], '/register', [\App\Http\Controllers\AuthController::class, 'register'])->name('register');
+Route::middleware('guest')->group(function () {
+    Route::match(['get', 'post'], '/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+    Route::match(['get', 'post'], '/register', [\App\Http\Controllers\AuthController::class, 'register'])->name('register');
+});
+
+Route::get('/site-activation', [\App\Http\Controllers\AuthController::class, 'siteActivation'])
+    ->withoutMiddleware(\App\Http\Middleware\CheckDomainIsValid::class);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -34,4 +39,4 @@ Route::get('/dashboard', function () {
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 //});
 
-require __DIR__.'/auth.php';
+//require __DIR__.'/auth.php';

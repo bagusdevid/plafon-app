@@ -9,6 +9,7 @@ export default function Layout({children}) {
     return <LayoutContext.Provider value={{
         auth: children.props.auth,
         flashMessage: children.props.flash.message,
+        flashData: children.props.flash.data,
     }}>
         <div className="">
             {children}
