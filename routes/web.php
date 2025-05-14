@@ -26,7 +26,7 @@ Route::middleware('guest')->group(function () {
     Route::match(['get', 'post'], '/register', [\App\Http\Controllers\AuthController::class, 'register'])->name('register');
 });
 
-Route::get('/site-activation', [\App\Http\Controllers\AuthController::class, 'siteActivation'])
+Route::match(['get', 'post'],'/site-activation', [\App\Http\Controllers\AuthController::class, 'siteActivation'])
     ->withoutMiddleware(\App\Http\Middleware\CheckDomainIsValid::class);
 
 Route::get('/dashboard', function () {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sheep;
+use App\Models\Site;
 use App\Models\SiteInvitation;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -108,8 +109,31 @@ class AuthController extends Controller
         return redirect('/login');
     }
 
-    public function siteActivation()
+    public function siteActivation(Request $request)
     {
+        if($request->isMethod('post')) {
+            $request->validate([
+                'activation_code' => ['required']
+            ]);
+
+            $query = Site::where('activation_code', $request->activation_code)
+                ->get();
+
+            if($query->count() > 0) {
+                Site::where('id', $query->first()->id)
+                    ->update([
+                        'active' => 1
+                    ]);
+
+                return redirect()
+                    ->to('/')
+                    ->with('message', 'Site successfully activated');
+            }
+
+            return back()
+                ->with('data', 'Wrong activation code');
+        }
+
         $query = $this->getSitesMatch()
             ->count();
 
