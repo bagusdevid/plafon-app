@@ -5,10 +5,16 @@ import FloatingMessage from "@/Components/FloatingMessage.jsx";
 import {FaBars, FaRegUser} from "react-icons/fa6";
 import {Stack, Drawer, Portal, Button, CloseButton} from "@chakra-ui/react";
 import {MdAttachMoney, MdDashboard, MdLogout} from "react-icons/md";
+import {AiOutlineHome} from "react-icons/ai";
+import {RiVipCrown2Line, RiVipCrownFill} from "react-icons/ri";
+import {LuWallet} from "react-icons/lu";
+import {FiUser} from "react-icons/fi";
+import {IoSkullOutline} from "react-icons/io5";
+import Menus from "@/Components/Menus.jsx";
 
 export default function SiteLayout({title = 'Default', leftNav = null, children}) {
 
-    const {flashMessage, auth} = useContext(LayoutContext)
+    const {flashMessage, site, auth} = useContext(LayoutContext)
 
     // console.log(auth)
 
@@ -40,19 +46,25 @@ export default function SiteLayout({title = 'Default', leftNav = null, children}
         {label: 'Logout', url: '/logout', icon: <MdLogout />, method: 'post'},
     ]
 
-    return <>
-        <Drawer.Root>
-            <DrawerContainer ref={portalRef}>
-        <FloatingMessage
-            show={alert.show}
-            status={alert.status}
-        >
-            {alert.message}
-        </FloatingMessage>
-        <Head title={title} />
+    const bottomMenus = [
+        {label: 'Beranda', url: '/', icon: <AiOutlineHome className="mx-auto" />},
+        {label: 'VIP', url: '#', icon: <RiVipCrown2Line className="mx-auto" />},
+        {label: 'Logo', url: '/top-up', icon: <IoSkullOutline className="mx-auto" />},
+        {label: 'Dompet', url: '#', icon: <LuWallet className="mx-auto" />},
+        {label: 'Akun', url: '/profile', icon: <FiUser className="mx-auto" />},
+    ]
 
-                <div className="bg-white">
-                    <div className="flex justify-between items-center px-5 w-full lg:w-[600px] h-[60px] bg-red-600 text-white">
+    return <>
+                <FloatingMessage
+                    show={alert.show}
+                    status={alert.status}
+                >
+                    {alert.message}
+                </FloatingMessage>
+                <Head title={`${title} - ${site.name}`} />
+
+                <div className="bg-white w-full lg:w-[600px] mx-auto relative">
+                    <div className="flex justify-between items-center px-5 h-[60px] bg-red-600 text-white">
                         <div>
                             {leftNav ? leftNav : ''}
                         </div>
@@ -60,46 +72,17 @@ export default function SiteLayout({title = 'Default', leftNav = null, children}
                             {title}
                         </div>
                         <div>
-                            {auth.user ? <Drawer.Trigger asChild>
-                                <Button variant="plain" size="md" className="text-white">
+                            {auth.user ? <Button variant="plain" size="md" className="text-white">
                                     <FaBars />
-                                </Button>
-                            </Drawer.Trigger> : ''}
+                                </Button> : ''}
                         </div>
                     </div>
-                    <div className="px-10 py-10 min-h-[calc(100vh_-_60px)]">
+                    <div className="pb-[90px] min-h-[calc(100vh_-_60px)]">
                         {children}
                     </div>
+                    {auth.user ? <Menus /> : ''}
                 </div>
-            </DrawerContainer>
-            <Portal container={portalRef}>
-                <Drawer.Backdrop pos="absolute" boxSize="full" />
-                <Drawer.Positioner pos="absolute" boxSize="full">
-                    <Drawer.Content>
-                        <Drawer.Header>
-                            <Drawer.Title>Drawer Title</Drawer.Title>
-                            <Drawer.CloseTrigger asChild>
-                                <CloseButton size="sm" />
-                            </Drawer.CloseTrigger>
-                        </Drawer.Header>
-                        <Drawer.Body>
-                            <div>
-                                {menus.map((menu, key) => {
-                                    return <Link key={key} href={menu.url} method={menu.method} as="a" className="flex items-center py-3 px-3 rounded-md duration-300 group hover:bg-red-100 w-full cursor-pointer">
-                                        <div className="w-[30px] text-gray-500 group-hover:text-red-400">
-                                            {menu.icon}
-                                        </div>
-                                        <div className="flex-1 font-medium text-[16px] group-hover:text-red-700 text-left">
-                                            {menu.label}
-                                        </div>
-                                    </Link>
-                                })}
-                            </div>
-                        </Drawer.Body>
-                    </Drawer.Content>
-                </Drawer.Positioner>
-            </Portal>
-        </Drawer.Root>
+
     </>
 }
 

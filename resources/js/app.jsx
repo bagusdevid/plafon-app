@@ -10,7 +10,7 @@ import {Provider} from './Components/ui/provider'
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${title}`,
     resolve: (name) => {
         // resolvePageComponent(
         //     `./Pages/${name}.jsx`,
@@ -35,8 +35,6 @@ createInertiaApp({
         root.render(<App {...props} />);
     },
     progress: {
-        showSpinner: true,
-        delay: 0,
-        color: '#ff0000'
+        showSpinner: false,
     }
 });

@@ -10,6 +10,7 @@ export default function Layout({children}) {
         auth: children.props.auth,
         flashMessage: children.props.flash.message,
         flashData: children.props.flash.data,
+        site: children.props.site,
     }}>
         <div className="">
             {children}

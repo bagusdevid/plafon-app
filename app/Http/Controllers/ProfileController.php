@@ -8,7 +8,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,24 +23,46 @@ class ProfileController extends Controller
 
     public function edit(Request $request)
     {
-        if($request->isMethod('post')) {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|lowercase|email|max:255|unique:'.Sheep::class,
+        return inertia('Profile/Edit');
+    }
+
+    public function update(Request $request, Sheep $sheep)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|lowercase|email|max:255',
+        ]);
+
+        $sheep::where('id', $request->id)
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone
             ]);
 
-            Sheep::where('id', $request->id)
-                ->update([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'phone' => $request->phone
-                ]);
+        return redirect()
+            ->to('/profile')
+            ->with('message', 'Data berhasil diubah.');
+    }
+
+    public function changePasswd(Request $request)
+    {
+        if($request->isMethod('put')) {
+            $validated = $request->validate([
+                'current_password' => ['required', 'current_password'],
+                'password' => ['required', Password::defaults(), 'confirmed'],
+            ]);
+
+            $request->user()->update([
+                'password' => Hash::make($validated['password']),
+            ]);
 
             return redirect()
-                ->to('/profile');
+                ->to('/profile')
+                ->with('message', 'Password berhasil diubah.');
         }
 
-        return inertia('Profile/Edit');
+        return inertia('Profile/ChangePassword');
     }
 
     /**
@@ -55,7 +79,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function updateOld(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
 

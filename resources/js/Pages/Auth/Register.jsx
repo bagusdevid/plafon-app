@@ -1,4 +1,5 @@
-import SiteLayout from "@/Layouts/SiteLayout.jsx";
+import SiteLayout
+    from "@/Layouts/SiteLayout.jsx";
 import {Button, Field, Fieldset, Alert, Input, Stack} from "@chakra-ui/react";
 import {Link, useForm} from "@inertiajs/react";
 import {IoSkullOutline} from "react-icons/io5";
@@ -35,8 +36,9 @@ export default function Register({invitation}) {
         })
     }
 
-    return <SiteLayout title="Register">
-        <div>
+    return <SiteLayout
+        title="Register">
+        <div className="px-5 lg:px-10 pt-5 lg:pt-10">
             <div className="mb-10 text-center">
                 <div className="text-[74px] mb-2">
                     <IoSkullOutline className="mx-auto text-red-500" />
@@ -138,5 +140,6 @@ export default function Register({invitation}) {
                 </form>
             </Fieldset.Root>
         </div>
-    </SiteLayout>
+    </SiteLayout
+    >
 }

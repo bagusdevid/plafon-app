@@ -147,7 +147,7 @@ class AuthController extends Controller
         return inertia('Auth/SiteActivation', $data);
     }
 
-    private function getSiteId()
+    public function getSiteId()
     {
         return $this->getSitesMatch()
             ->map(function ($item) {
@@ -156,7 +156,7 @@ class AuthController extends Controller
             ->first();
     }
 
-    private function getSitesMatch()
+    public function getSitesMatch()
     {
         return DB::table('sites')
             ->get()

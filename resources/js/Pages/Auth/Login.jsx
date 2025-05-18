@@ -11,8 +11,12 @@ import SiteLayout from "@/Layouts/SiteLayout.jsx";
 import {Link, useForm} from "@inertiajs/react";
 import {IoSkullOutline} from "react-icons/io5";
 import {CustomField} from "@/Components/Forms/CustomField.jsx";
+import {useContext} from "react";
+import {LayoutContext} from "@/Layouts/Layout.jsx";
 
 export default function Login() {
+
+    const {site} = useContext(LayoutContext);
 
     const initialValues = {
         email: '',
@@ -26,7 +30,7 @@ export default function Login() {
     }
 
     return <SiteLayout title="Login">
-        <div>
+        <div className="px-5 lg:px-10 pt-5 lg:pt-10">
             <div className="mb-10 text-center">
                 <div className="text-[74px] mb-2">
                     <IoSkullOutline className="mx-auto text-red-500" />

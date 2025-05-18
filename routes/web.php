@@ -15,8 +15,12 @@ use Inertia\Inertia;
 //});
 Route::middleware([\App\Http\Middleware\CheckDomainIsValid::class, 'auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/vip', [\App\Http\Controllers\VipController::class, 'index']);
+    Route::get('/wallet', [\App\Http\Controllers\WalletController::class, 'index']);
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index']);
-    Route::match(['get','post'],'/profile/edit', [\App\Http\Controllers\ProfileController::class, 'edit']);
+    Route::get('/profile/edit', [\App\Http\Controllers\ProfileController::class, 'edit']);
+    Route::match(['get','put'],'/profile/change-password', [\App\Http\Controllers\ProfileController::class, 'changePasswd']);
+    Route::put('/profile/{id}', [\App\Http\Controllers\ProfileController::class, 'update']);
     Route::get('/top-up', [\App\Http\Controllers\TopupController::class, 'index']);
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });
