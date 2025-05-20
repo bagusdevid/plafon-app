@@ -38,10 +38,16 @@ class HandleInertiaRequests extends Middleware
 
         $user = $request->user();
         if($user) {
-            $photos = explode('.', $user['photo']);
-            $user['photo_path'] = asset('storage/photos/' . $photos[0] . '.' . $photos[1]);
-            $user['photo_thumb_path'] = asset('storage/photos/' . $photos[0] . '_thumb.' . $photos[1]);
-            $user['photo_300_path'] = asset('storage/photos/' . $photos[0] . '_std.' . $photos[1]);
+            if($user['photo']) {
+                $photos = explode('.', $user['photo']);
+                $user['photo_path'] = asset('storage/photos/' . $photos[0] . '.' . $photos[1]);
+                $user['photo_thumb_path'] = asset('storage/photos/' . $photos[0] . '_thumb.' . $photos[1]);
+                $user['photo_300_path'] = asset('storage/photos/' . $photos[0] . '_std.' . $photos[1]);
+            } else {
+                $user['photo_path'] = '';
+                $user['photo_thumb_path'] = '';
+                $user['photo_300_path'] = '';
+            }
         }
 
         return [
