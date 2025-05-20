@@ -18,7 +18,8 @@ class Sheep extends Authenticatable
         'name',
         'email',
         'password',
-        'phone'
+        'phone',
+        'photo'
     ];
 
     protected $hidden = [

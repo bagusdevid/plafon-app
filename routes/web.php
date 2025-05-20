@@ -20,6 +20,7 @@ Route::middleware([\App\Http\Middleware\CheckDomainIsValid::class, 'auth'])->gro
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index']);
     Route::get('/profile/edit', [\App\Http\Controllers\ProfileController::class, 'edit']);
     Route::match(['get','put'],'/profile/change-password', [\App\Http\Controllers\ProfileController::class, 'changePasswd']);
+    Route::match(['get','post'],'/profile/change-avatar', [\App\Http\Controllers\ProfileController::class, 'changeAvatar']);
     Route::put('/profile/{id}', [\App\Http\Controllers\ProfileController::class, 'update']);
     Route::get('/top-up', [\App\Http\Controllers\TopupController::class, 'index']);
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
@@ -28,6 +29,11 @@ Route::middleware([\App\Http\Middleware\CheckDomainIsValid::class, 'auth'])->gro
 Route::middleware('guest')->group(function () {
     Route::match(['get', 'post'], '/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
     Route::match(['get', 'post'], '/register', [\App\Http\Controllers\AuthController::class, 'register'])->name('register');
+    Route::match(['get','post'],'/forgot-password', [\App\Http\Controllers\AuthController::class, 'forgotPassword']);
+    Route::get('reset-password/{token}', [\App\Http\Controllers\AuthController::class, 'createResetPassword'])
+        ->name('password.reset');
+    Route::post('reset-password', [\App\Http\Controllers\AuthController::class, 'storeResetPassword'])
+        ->name('password.store');
 });
 
 Route::match(['get', 'post'],'/site-activation', [\App\Http\Controllers\AuthController::class, 'siteActivation'])

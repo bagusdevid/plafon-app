@@ -6,13 +6,18 @@ use App\Models\Sheep;
 use App\Models\Site;
 use App\Models\SiteInvitation;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
@@ -72,6 +77,75 @@ class AuthController extends Controller
         $data['invitation'] = $invitation;
 
         return inertia('Auth/Register', $data);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        if($request->isMethod('post')) {
+
+            $request->validate([
+                'email' => 'required|email',
+            ]);
+
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+
+            if ($status == Password::RESET_LINK_SENT) {
+                return back()->with('status', __($status));
+            }
+
+            throw ValidationException::withMessages([
+                'email' => [trans($status)],
+            ]);
+        }
+
+        return inertia('Auth/ForgotPassword', [
+            'status' => session('status'),
+        ]);
+    }
+
+    public function createResetPassword(Request $request)
+    {
+        return Inertia::render('Auth/ResetPassword', [
+            'email' => $request->email,
+            'token' => $request->route('token'),
+        ]);
+    }
+
+    public function storeResetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        // Here we will attempt to reset the user's password. If it is successful we
+        // will update the password on an actual user model and persist it to the
+        // database. Otherwise we will parse the error and return the response.
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        // If the password was successfully reset, we will redirect the user back to
+        // the application's home authenticated view. If there is an error we can
+        // redirect them back to where they came from with their error message.
+        if ($status == Password::PASSWORD_RESET) {
+            return redirect()->route('login')->with('status', __($status));
+        }
+
+        throw ValidationException::withMessages([
+            'email' => [trans($status)],
+        ]);
     }
 
     private function checkInvitationCode($code)

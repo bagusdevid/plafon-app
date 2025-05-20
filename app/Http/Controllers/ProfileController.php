@@ -10,9 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -63,6 +66,41 @@ class ProfileController extends Controller
         }
 
         return inertia('Profile/ChangePassword');
+    }
+
+    public function changeAvatar(Request $request)
+    {
+        if($request->isMethod('post')) {
+            $request->validate([
+                'photo' => 'required|file|mimes:jpg,jpeg,gif,png|max:2048'
+            ]);
+
+            $upload = $request->file('photo');
+            $random = Str::random();
+
+            $image = Image::read($upload);
+            Storage::put('photos/' . $random . '.' . $upload->getClientOriginalExtension(), $image->encodeByExtension($upload->getClientOriginalExtension()));
+
+            $image_thumb = Image::read($upload)
+                ->cover(150,150);
+            Storage::put('photos/' . $random . '_thumb.' . $upload->getClientOriginalExtension(), $image_thumb->encodeByExtension($upload->getClientOriginalExtension()));
+
+            $image_300 = Image::read($upload)
+                ->cover(300,300);
+            Storage::put('photos/' . $random . '_std.' . $upload->getClientOriginalExtension(),
+            $image_300->encodeByExtension($upload->getClientOriginalExtension()));
+
+            Sheep::where('id', Auth::user()['id'])
+                ->update([
+                    'photo' => $random . '.' . $upload->getClientOriginalExtension()
+                ]);
+
+            return redirect()
+                ->to('/profile')
+                ->with('message', 'Photo berhasil diubah.');
+        }
+
+        return inertia('Profile/ChangeAvatar');
     }
 
     /**

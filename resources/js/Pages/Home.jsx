@@ -12,7 +12,7 @@ import {thousandSeparator} from "@/Utils/thousandSeparator.jsx";
 
 export default function Home({donaturs}) {
 
-    console.log(donaturs)
+    // console.log(donaturs)
 
     const {auth, site} = useContext(LayoutContext)
 
@@ -29,7 +29,7 @@ export default function Home({donaturs}) {
             </div>
             <Marquee className="flex-1 py-2 bg-white rounded-tl-full rounded-bl-full">
                 {donaturs.map((donatur, key) => {
-                    return <Donatur name={donatur.name} amount={donatur.amount} />
+                    return <Donatur key={key} name={donatur.name} amount={donatur.amount} />
                 })}
             </Marquee>
         </div>

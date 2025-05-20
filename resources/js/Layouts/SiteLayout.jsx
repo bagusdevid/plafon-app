@@ -2,8 +2,8 @@ import {Head, Link} from "@inertiajs/react";
 import {LayoutContext} from "@/Layouts/Layout.jsx";
 import {forwardRef, useContext, useEffect, useRef, useState} from "react";
 import FloatingMessage from "@/Components/FloatingMessage.jsx";
-import {FaBars, FaRegUser} from "react-icons/fa6";
-import {Stack, Drawer, Portal, Button, CloseButton} from "@chakra-ui/react";
+import {FaBars, FaRegCircleUser, FaRegUser, FaUser} from "react-icons/fa6";
+import {Stack, Drawer, Portal, Button, CloseButton, Menu, Image} from "@chakra-ui/react";
 import {MdAttachMoney, MdDashboard, MdLogout} from "react-icons/md";
 import {AiOutlineHome} from "react-icons/ai";
 import {RiVipCrown2Line, RiVipCrownFill} from "react-icons/ri";
@@ -11,6 +11,7 @@ import {LuWallet} from "react-icons/lu";
 import {FiUser} from "react-icons/fi";
 import {IoSkullOutline} from "react-icons/io5";
 import Menus from "@/Components/Menus.jsx";
+import {HiDotsVertical} from "react-icons/hi";
 
 export default function SiteLayout({title = 'Default', leftNav = null, children}) {
 
@@ -72,9 +73,7 @@ export default function SiteLayout({title = 'Default', leftNav = null, children}
                             {title}
                         </div>
                         <div>
-                            {auth.user ? <Button variant="plain" size="md" className="text-white">
-                                    <FaBars />
-                                </Button> : ''}
+                            {auth.user ? <Avatar user={auth.user} /> : ''}
                         </div>
                     </div>
                     <div className="pb-[90px] min-h-[calc(100vh_-_60px)]">
@@ -86,14 +85,33 @@ export default function SiteLayout({title = 'Default', leftNav = null, children}
     </>
 }
 
-const DrawerContainer = forwardRef(
-    function DrawerContainer(props, ref) {
-        return (
-            <Stack
-                className="relative w-full lg:w-[600px] overflow-hidden min-h-screen mx-auto"
-                ref={ref}
-                {...props}
-            />
-        )
-    },
-)
+function Avatar({user}) {
+    return <Menu.Root positioning={{ placement: "bottom-end" }}>
+        <Menu.Trigger asChild>
+            <Button size="sm" unstyled className="cursor-pointer rounded-full overflow-hidden flex items-center justify-center text-[30px] text-black w-[32px] h-[32px] text-white">
+                {user ? <Image src={user.photo_thumb_path} alt="" /> : <FaRegCircleUser />}
+            </Button>
+        </Menu.Trigger>
+        <Portal>
+            <Menu.Positioner>
+                <Menu.Content>
+                    <Menu.Item asChild value="/profile/change-password">
+                        <Link href="/profile/change-password">
+                            Ubah password
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item asChild value="/profile/change-avatar">
+                        <Link href="/profile/change-avatar">
+                            Ubah photo
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item asChild value="/logout">
+                        <Link href="/logout" method="post" as="button">
+                            Logout
+                        </Link>
+                    </Menu.Item>
+                </Menu.Content>
+            </Menu.Positioner>
+        </Portal>
+    </Menu.Root>
+}

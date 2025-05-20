@@ -36,10 +36,18 @@ class HandleInertiaRequests extends Middleware
             ->get()
             ->first();
 
+        $user = $request->user();
+        if($user) {
+            $photos = explode('.', $user['photo']);
+            $user['photo_path'] = asset('storage/photos/' . $photos[0] . '.' . $photos[1]);
+            $user['photo_thumb_path'] = asset('storage/photos/' . $photos[0] . '_thumb.' . $photos[1]);
+            $user['photo_300_path'] = asset('storage/photos/' . $photos[0] . '_std.' . $photos[1]);
+        }
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
             ],
             'site' => $site,
             'flash' => [

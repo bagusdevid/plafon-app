@@ -1,6 +1,6 @@
 import SiteLayout from "@/Layouts/SiteLayout.jsx";
 import {FaUser} from "react-icons/fa6";
-import {Field, Input, Fieldset, Menu, Button, Portal} from "@chakra-ui/react";
+import {Field, Input, Fieldset, Menu, Button, Portal, Image} from "@chakra-ui/react";
 import {useContext} from "react";
 import {LayoutContext} from "@/Layouts/Layout.jsx";
 import {Link} from "@inertiajs/react";
@@ -12,13 +12,13 @@ export default function Main() {
 
     const {auth} = useContext(LayoutContext)
 
+    // console.log(auth.user)
+
     return <SiteLayout title="Profile">
         <div className="px-5 lg:px-10 pt-5 lg:pt-10">
             <div className="flex justify-between border-b border-solid border-b-neutral-300 pb-8">
                 <div></div>
-                <div className="flex items-center justify-center text-[46px] mx-auto w-[120px] h-[120px] bg-neutral-200 rounded-full">
-                    <FaUser />
-                </div>
+                <Avatar user={auth.user} />
                 <div>
                     <Menu.Root positioning={{ placement: "bottom-end" }}>
                         <Menu.Trigger asChild>
@@ -87,4 +87,20 @@ export default function Main() {
             </Fieldset.Root>
         </div>
     </SiteLayout>
+}
+
+function Avatar({user}) {
+    if(user.photo) {
+        return <div className="mx-auto w-[120px] h-[120px] rounded-full overflow-hidden">
+            <Image
+                src={user.photo_300_path}
+                w="100%"
+                alt=""
+            />
+        </div>
+    }
+
+    return <div className="flex items-center justify-center text-[46px] mx-auto w-[120px] h-[120px] bg-neutral-200 rounded-full">
+        <FaUser />
+    </div>
 }

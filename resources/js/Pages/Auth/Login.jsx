@@ -52,7 +52,9 @@ export default function Login() {
                             type="email"
                             size="xl"
                             placeholder="Masukkan email Anda"
-                            className="w-full" />
+                            className="w-full"
+                            disabled={dataForm.processing}
+                        />
                         {dataForm.errors.email ? <Field.ErrorText>{dataForm.errors.email}</Field.ErrorText> : ''}
                     </CustomField>
                     <CustomField label="Password" invalid={dataForm.errors.password} isRequired>
@@ -61,7 +63,9 @@ export default function Login() {
                             onChange={(e) => dataForm.setData('password', e.target.value)}
                             type="password"
                             size="xl"
-                            placeholder="Masukkan password" />
+                            placeholder="Masukkan password"
+                            disabled={dataForm.processing}
+                        />
                         {dataForm.errors.password ? <Field.ErrorText>{dataForm.errors.password}</Field.ErrorText> : ''}
                     </CustomField>
                 </Fieldset.Content>
@@ -69,11 +73,20 @@ export default function Login() {
                 <Stack mt={5}>
                     <Button
                         size="xl"
-                        type="submit" alignSelf="flex-start" className="w-full">
+                        type="submit"
+                        alignSelf="flex-start"
+                        className="w-full"
+                        _disabled={{
+                            bgColor: "#ddd",
+                            color: "#aaa",
+                            opacity: 1
+                        }}
+                        disabled={dataForm.processing}
+                    >
                         Login
                     </Button>
                     <div className="flex justify-between">
-                        <Link href="#" className="text-[13px] text-red-700">
+                        <Link href="/forgot-password" className="text-[13px] text-red-700">
                             Forgot password
                         </Link>
                         <Link href="/register" className="text-[13px]">
