@@ -89,7 +89,7 @@ function Avatar({user}) {
     return <Menu.Root positioning={{ placement: "bottom-end" }}>
         <Menu.Trigger asChild>
             <Button size="sm" unstyled className="cursor-pointer rounded-full overflow-hidden flex items-center justify-center text-[30px] text-black w-[32px] h-[32px] text-white">
-                {user ? <Image src={user.photo_thumb_path} alt="" /> : <FaRegCircleUser />}
+                {user.photo ? <Image src={user.photo_thumb_path} alt="" /> : <FaRegCircleUser />}
             </Button>
         </Menu.Trigger>
         <Portal>
