@@ -5,6 +5,7 @@ import {HiDotsVertical} from "react-icons/hi";
 import {Link, useForm} from "@inertiajs/react";
 import {FiEdit} from "react-icons/fi";
 import {CustomField} from "@/Components/Forms/CustomField.jsx";
+import Heading from "@/Components/Profile/Heading.jsx";
 
 export default function ChangePassword() {
 
@@ -22,37 +23,7 @@ export default function ChangePassword() {
 
     return <SiteLayout title="Ubah password">
         <div className="px-5 lg:px-10 pt-5 lg:pt-10">
-            <div className="flex justify-between border-b border-solid border-b-neutral-300 pb-8">
-                <div></div>
-                <div className="flex items-center justify-center text-[46px] mx-auto w-[120px] h-[120px] bg-neutral-200 rounded-full">
-                    <FaUser />
-                </div>
-                <div>
-                    <Menu.Root positioning={{ placement: "bottom-end" }}>
-                        <Menu.Trigger asChild>
-                            <Button size="sm" unstyled className="cursor-pointer py-1 pl-2">
-                                <HiDotsVertical />
-                            </Button>
-                        </Menu.Trigger>
-                        <Portal>
-                            <Menu.Positioner>
-                                <Menu.Content>
-                                    <Menu.Item>
-                                        <Link href="#">
-                                            Change password
-                                        </Link>
-                                    </Menu.Item>
-                                    <Menu.Item>
-                                        <Link href="#">
-                                            Change photo
-                                        </Link>
-                                    </Menu.Item>
-                                </Menu.Content>
-                            </Menu.Positioner>
-                        </Portal>
-                    </Menu.Root>
-                </div>
-            </div>
+            <Heading />
             <form onSubmit={handleSubmit}>
             <div className="flex justify-between items-center py-2 px-2 bg-neutral-100 mb-8">
                 <div>

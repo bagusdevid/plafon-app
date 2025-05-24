@@ -12,6 +12,7 @@ import {FiUser} from "react-icons/fi";
 import {IoSkullOutline} from "react-icons/io5";
 import Menus from "@/Components/Menus.jsx";
 import {HiDotsVertical} from "react-icons/hi";
+import AdvancedMenu from "@/Components/Profile/AdvancedMenu.jsx";
 
 export default function SiteLayout({title = 'Default', leftNav = null, children}) {
 
@@ -73,7 +74,7 @@ export default function SiteLayout({title = 'Default', leftNav = null, children}
                             {title}
                         </div>
                         <div>
-                            {auth.user ? <Avatar user={auth.user} /> : ''}
+                            {auth.user ? <AdvancedMenu onNavbar /> : ''}
                         </div>
                     </div>
                     <div className="pb-[90px] min-h-[calc(100vh_-_60px)]">
@@ -83,35 +84,4 @@ export default function SiteLayout({title = 'Default', leftNav = null, children}
                 </div>
 
     </>
-}
-
-function Avatar({user}) {
-    return <Menu.Root positioning={{ placement: "bottom-end" }}>
-        <Menu.Trigger asChild>
-            <Button size="sm" unstyled className="cursor-pointer rounded-full overflow-hidden flex items-center justify-center text-[30px] text-black w-[32px] h-[32px] text-white">
-                {user.photo ? <Image src={user.photo_thumb_path} alt="" /> : <FaRegCircleUser />}
-            </Button>
-        </Menu.Trigger>
-        <Portal>
-            <Menu.Positioner>
-                <Menu.Content>
-                    <Menu.Item asChild value="/profile/change-password">
-                        <Link href="/profile/change-password">
-                            Ubah password
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item asChild value="/profile/change-avatar">
-                        <Link href="/profile/change-avatar">
-                            Ubah photo
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item asChild value="/logout">
-                        <Link href="/logout" method="post" as="button">
-                            Logout
-                        </Link>
-                    </Menu.Item>
-                </Menu.Content>
-            </Menu.Positioner>
-        </Portal>
-    </Menu.Root>
 }

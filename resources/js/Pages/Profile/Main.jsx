@@ -7,6 +7,7 @@ import {Link} from "@inertiajs/react";
 import {CiEdit} from "react-icons/ci";
 import {FiEdit} from "react-icons/fi";
 import {HiDotsVertical, HiOutlineDotsVertical} from "react-icons/hi";
+import Heading from "@/Components/Profile/Heading.jsx";
 
 export default function Main() {
 
@@ -16,40 +17,7 @@ export default function Main() {
 
     return <SiteLayout title="Profile">
         <div className="px-5 lg:px-10 pt-5 lg:pt-10">
-            <div className="flex justify-between border-b border-solid border-b-neutral-300 pb-8">
-                <div></div>
-                <Avatar user={auth.user} />
-                <div>
-                    <Menu.Root positioning={{ placement: "bottom-end" }}>
-                        <Menu.Trigger asChild>
-                            <Button size="sm" unstyled className="cursor-pointer py-1 pl-2">
-                                <HiDotsVertical />
-                            </Button>
-                        </Menu.Trigger>
-                        <Portal>
-                            <Menu.Positioner>
-                                <Menu.Content>
-                                    <Menu.Item asChild value="/profile/change-password">
-                                        <Link href="/profile/change-password">
-                                            Ubah password
-                                        </Link>
-                                    </Menu.Item>
-                                    <Menu.Item asChild value="/profile/change-avatar">
-                                        <Link href="/profile/change-avatar">
-                                            Ubah photo
-                                        </Link>
-                                    </Menu.Item>
-                                    <Menu.Item asChild value="/logout">
-                                        <Link href="/logout" method="post" as="button">
-                                            Logout
-                                        </Link>
-                                    </Menu.Item>
-                                </Menu.Content>
-                            </Menu.Positioner>
-                        </Portal>
-                    </Menu.Root>
-                </div>
-            </div>
+            <Heading />
             <div className="flex justify-between items-center py-2 px-2 bg-neutral-100 mb-8">
                 <div>
                 </div>
@@ -87,20 +55,4 @@ export default function Main() {
             </Fieldset.Root>
         </div>
     </SiteLayout>
-}
-
-function Avatar({user}) {
-    if(user.photo) {
-        return <div className="mx-auto w-[120px] h-[120px] rounded-full overflow-hidden">
-            <Image
-                src={user.photo_300_path}
-                w="100%"
-                alt=""
-            />
-        </div>
-    }
-
-    return <div className="flex items-center justify-center text-[46px] mx-auto w-[120px] h-[120px] bg-neutral-200 rounded-full">
-        <FaUser />
-    </div>
 }
