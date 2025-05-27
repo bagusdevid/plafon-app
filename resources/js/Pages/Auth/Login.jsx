@@ -77,7 +77,7 @@ export default function Login() {
                         <img
                             src="/images/emiratesclub-logo.png"
                             alt=""
-                            className="w-[320px] mx-auto"
+                            className="w-[240px] lg:w-[320px] mx-auto"
                         />
                     </div>
                 </div>
@@ -96,12 +96,12 @@ export default function Login() {
                             onChange={(e) => setData('username', e.target.value)}
                             type="text"
                             _placeholder={{ color: "rgba(255,255,255,.3)" }}
-                            css={{ "--focus-color": "transparent" }}
+                            css={{ "--focus-color": "rgba(255,255,255,.5)" }}
                             color="white"
                             size="lg"
                             placeholder="Username"
                             variant="flushed"
-                            className="border-b-white/30"
+                            className="border-b-white/20"
                         />
                         <PasswordInput
                             value={data.password}

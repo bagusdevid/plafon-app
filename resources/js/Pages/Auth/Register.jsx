@@ -63,7 +63,7 @@ export default function Register({invitation}) {
                         <img
                             src="/images/emiratesclub-logo.png"
                             alt=""
-                            className="w-[320px] mx-auto"
+                            className="w-[240px] lg:w-[320px] mx-auto"
                         />
                     </div>
                 </div>
@@ -87,34 +87,34 @@ export default function Register({invitation}) {
                             onChange={(e) => setData('name', e.target.value)}
                             type="text"
                             _placeholder={{ color: "rgba(255,255,255,.3)" }}
-                            css={{ "--focus-color": "transparent" }}
+                            css={{ "--focus-color": "rgba(255,255,255,.5)" }}
                             color="white"
                             size="lg"
                             placeholder="Nama lengkap"
                             variant="flushed"
-                            className="border-b-white/30"
+                            className="border-b-white/20"
                         />
                         <Input
                             value={data.username}
                             onChange={(e) => setData('username', e.target.value)}
                             type="text"
                             _placeholder={{ color: "rgba(255,255,255,.3)" }}
-                            css={{ "--focus-color": "transparent" }}
+                            css={{ "--focus-color": "rgba(255,255,255,.5)" }}
                             color="white"
                             size="lg"
                             placeholder="Username"
                             variant="flushed"
-                            className="border-b-white/30"
+                            className="border-b-white/20"
                         />
                         <PasswordInput
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             type="password"
                             _placeholder={{ color: "rgba(255,255,255,.3)" }}
-                            css={{ "--focus-color": "transparent" }}
+                            css={{ "--focus-color": "rgba(255,255,255,.5)" }}
                             color="white"
                             size="lg"
-                            className="border-b-white/30"
+                            className="border-b-white/20"
                             placeholder="Masukkan Password"
                             variant="flushed"
                         />
@@ -123,12 +123,12 @@ export default function Register({invitation}) {
                             onChange={(e) => setData('password_confirmation', e.target.value)}
                             type="password"
                             _placeholder={{ color: "rgba(255,255,255,.3)" }}
-                            css={{ "--focus-color": "transparent" }}
+                            css={{ "--focus-color": "rgba(255,255,255,.5)" }}
                             color="white"
                             size="lg"
                             placeholder="Ulangi Password"
                             variant="flushed"
-                            className="border-b-white/30"
+                            className="border-b-white/20"
                         />
                         <Input
                             value={data.invitation_code}
