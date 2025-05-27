@@ -25,7 +25,8 @@ class AuthController extends Controller
     {
         if($request->isMethod('post')) {
             $credentials = $request->validate([
-                'email' => ['required', 'string', 'email'],
+//                'email' => ['required', 'string', 'email'],
+                'username' => ['required', 'string'],
                 'password' => ['required', 'string'],
             ]);
 
@@ -36,8 +37,8 @@ class AuthController extends Controller
             }
 
             return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ])->onlyInput('email');
+                'username' => 'The provided credentials do not match our records.',
+            ])->onlyInput('username');
         }
 
         return inertia('Auth/Login');
@@ -48,7 +49,8 @@ class AuthController extends Controller
         if($request->isMethod('post')) {
             $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|lowercase|email|max:255|unique:'.Sheep::class,
+//                'email' => 'required|string|lowercase|email|max:255|unique:'.Sheep::class,
+                'username' => 'required|string|lowercase|max:255|unique:'.Sheep::class,
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
                 'invitation_code' => ['required']
             ]);
@@ -60,14 +62,15 @@ class AuthController extends Controller
 
             $sheep = Sheep::create([
                 'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
+//                'email' => $request->email,
+                'username' => $request->username,
+//                'phone' => $request->phone,
                 'password' => Hash::make($request->password)
             ]);
 
             return redirect()
                 ->to('/login')
-                ->with('message', 'Registrasi berhasil');
+                ->with('message', 'Registrasi berhasil. Silahkan login');
         }
 
         $invitation = '';

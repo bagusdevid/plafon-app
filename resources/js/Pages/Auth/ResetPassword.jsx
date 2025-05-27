@@ -90,7 +90,7 @@ export default function ResetPassword({token,email}) {
                             <Link href="/forgot-password" className="text-[13px] text-red-700">
                                 Forgot password
                             </Link>
-                            <Link href="/register" className="text-[13px]">
+                            <Link href="/RegisterOld" className="text-[13px]">
                                 Sign Up
                             </Link>
                         </div>

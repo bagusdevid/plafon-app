@@ -17,6 +17,7 @@ class Sheep extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
         'phone',
         'photo'

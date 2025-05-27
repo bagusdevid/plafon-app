@@ -7,7 +7,6 @@ import {Button} from "@chakra-ui/react";
 import {useContext} from "react";
 import {LayoutContext} from "@/Layouts/Layout.jsx";
 import CountdownTimer from "@/Components/CountdownTimer.jsx";
-import Marquee from "react-fast-marquee";
 import {thousandSeparator} from "@/Utils/thousandSeparator.jsx";
 
 export default function HomeOld({donaturs}) {
@@ -27,11 +26,11 @@ export default function HomeOld({donaturs}) {
             <div className="text-white px-3 text-[14px] font-bold">
                 Last TopUp
             </div>
-            <Marquee className="flex-1 py-2 bg-white rounded-tl-full rounded-bl-full">
-                {donaturs.map((donatur, key) => {
-                    return <Donatur key={key} name={donatur.name} amount={donatur.amount} />
-                })}
-            </Marquee>
+            {/*<Marquee className="flex-1 py-2 bg-white rounded-tl-full rounded-bl-full">*/}
+            {/*    {donaturs.map((donatur, key) => {*/}
+            {/*        return <Donatur key={key} name={donatur.name} amount={donatur.amount} />*/}
+            {/*    })}*/}
+            {/*</Marquee>*/}
         </div>
 
         <div className="px-5 lg:px-10">

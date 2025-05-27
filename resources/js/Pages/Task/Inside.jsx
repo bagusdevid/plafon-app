@@ -41,7 +41,7 @@ export default function Inside({task, code}) {
                     {taskCode ? taskCode : ''}
                 </div>
                 <div>
-                    <Times minutes={1} />
+                    <Times minutes={1} setTaskSession={setTaskSession} />
                 </div>
             </div>
             <div className="px-5 mb-5">

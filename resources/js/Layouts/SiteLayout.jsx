@@ -3,7 +3,6 @@ import {LayoutContext} from "@/Layouts/Layout.jsx";
 import {forwardRef, useContext, useEffect, useRef, useState} from "react";
 import FloatingMessage from "@/Components/FloatingMessage.jsx";
 import {FaBars, FaRegCircleUser, FaRegUser, FaUser} from "react-icons/fa6";
-import {Stack, Drawer, Portal, Button, CloseButton, Menu, Image} from "@chakra-ui/react";
 import {MdAttachMoney, MdDashboard, MdLogout} from "react-icons/md";
 import {AiOutlineHome} from "react-icons/ai";
 import {RiVipCrown2Line, RiVipCrownFill} from "react-icons/ri";
@@ -11,7 +10,6 @@ import {LuWallet} from "react-icons/lu";
 import {FiUser} from "react-icons/fi";
 import {IoSkullOutline} from "react-icons/io5";
 import Menus from "@/Components/Menus.jsx";
-import {HiDotsVertical} from "react-icons/hi";
 import AdvancedMenu from "@/Components/Profile/AdvancedMenu.jsx";
 
 export default function SiteLayout({title = 'Default', leftNav = null, children}) {

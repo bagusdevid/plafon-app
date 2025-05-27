@@ -69,7 +69,7 @@ export default function ForgotPassword({status}) {
                             Email Password Reset Link
                         </Button>
                         <div className="flex justify-between">
-                            <Link href="/login" className="text-[13px]">
+                            <Link href="/LoginOld" className="text-[13px]">
                                 Sign In
                             </Link>
                         </div>
