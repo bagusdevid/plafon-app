@@ -89,6 +89,7 @@ export default function Home({tasks, newsFeeds}) {
                     <Slider
                         autoplay={false}
                         infinite={false}
+                        lazyLoad
                         dots
                         slidesToShow={2}
                         slidesToScroll={1}
