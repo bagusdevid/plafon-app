@@ -1,11 +1,8 @@
 import {useContext} from "react";
 import {LayoutContext} from "@/Layouts/Layout.jsx";
 import {Head, Link} from "@inertiajs/react";
-import {Badge, Progress} from "@chakra-ui/react";
 import Menus from "@/Components/Menus.jsx";
-import {FaArrowDown, FaMoneyBill, FaMoneyBillTransfer, FaPlus} from "react-icons/fa6";
-import {MdOutlineAccountBox, MdRedeem} from "react-icons/md";
-import {GoTasklist} from "react-icons/go";
+import {FaArrowDown, FaPlus} from "react-icons/fa6";
 import {IoIosArrowRoundForward} from "react-icons/io";
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
@@ -14,8 +11,6 @@ import {BsThreeDots} from "react-icons/bs";
 import {IoWallet} from "react-icons/io5";
 
 export default function Home({tasks, newsFeeds}) {
-
-    // console.log(tasks)
 
     const {flashMessage, site, auth} = useContext(LayoutContext)
 
