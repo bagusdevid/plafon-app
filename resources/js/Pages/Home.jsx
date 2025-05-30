@@ -86,6 +86,17 @@ export default function Home({tasks, newsFeeds}) {
                             Lorem ipsum dolor sit amet amet ipsum dolor neretivi gooese fran acktuila wiuss pra dumsetra
                         </div>
                     </div>
+                    {tasks.map((task, key) => {
+                        return <div className="px-2" key={key}>
+                            <Link href={`/task/${task.id}`} className="block max-h-[200px] rounded-md overflow-hidden">
+                                <img
+                                    src={task.photo_300_path}
+                                    alt=""
+                                    className="w-full"
+                                />
+                            </Link>
+                        </div>
+                    })}
                     <Slider
                         autoplay={false}
                         infinite={false}
