@@ -22,9 +22,17 @@ Route::middleware([\App\Http\Middleware\CheckDomainIsValid::class, 'auth'])->gro
     Route::match(['get','put'],'/profile/change-password', [\App\Http\Controllers\ProfileController::class, 'changePasswd']);
     Route::match(['get','post'],'/profile/change-avatar', [\App\Http\Controllers\ProfileController::class, 'changeAvatar']);
     Route::put('/profile/{id}', [\App\Http\Controllers\ProfileController::class, 'update']);
+
     Route::get('/top-up', [\App\Http\Controllers\TopupController::class, 'index']);
+
     Route::get('/task/{id}', [\App\Http\Controllers\TaskController::class, 'detail']);
     Route::post('/task/getTaskCode', [\App\Http\Controllers\TaskController::class, 'getTaskCode']);
+
+    Route::get('/withdraw', [\App\Http\Controllers\WithdrawController::class, 'index']);
+
+    Route::get('/invite', [\App\Http\Controllers\InviteController::class, 'index']);
+
+    Route::get('/customer-service', [\App\Http\Controllers\CustomerServiceController::class, 'index']);
 
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });

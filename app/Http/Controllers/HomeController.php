@@ -6,6 +6,11 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Http;
+use DOMDocument;
+use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpClient\HttpClient;
 
 class HomeController extends Controller
 {
@@ -23,6 +28,9 @@ class HomeController extends Controller
                 $item->photo_300_path = env('APP_MNG_URL') . '/storage/tasks/' . $photos[0] . '_std.' . $photos[1];
                 return $item;
             });
+
+        $data['newsFeeds'] = $this->newsFeed();
+//        $data['newsFeeds'] = '';
 
         return inertia('Home', $data);
     }
@@ -44,6 +52,30 @@ class HomeController extends Controller
         $data['donaturs'] = $donaturs;
 //        $data['faker'] = $faker->name;
         return inertia('Home', $data);
+    }
+
+    private function newsFeed()
+    {
+        $browser = new HttpBrowser(HttpClient::create());
+        $crawler = $browser->request('GET', 'https://liputan6.com/tag/travel');
+        $html = $crawler->outerHtml();
+        $elements = $crawler->filter('.articles--iridescent-list--item');
+        $news = [];
+        foreach ($elements as $key => $element) {
+            $news_crawler = new Crawler($element);
+            $title = $news_crawler->filter('aside header h4 a span');
+            $url = $news_crawler->filter('aside header h4 a');
+            $thumb = $news_crawler->filter('figure a picture img');
+            $news[] = [
+                'title' => $title->text(),
+                'url' => $url->attr('href'),
+                'thumb' => $thumb->attr('src')
+            ];
+            if($key + 1 === 10) break;
+        }
+//        dd($news);
+
+        return $news;
     }
 
     private function rupiahs()

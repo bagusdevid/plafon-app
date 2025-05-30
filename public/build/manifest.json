@@ -20,12 +20,12 @@
     "src": "node_modules/slick-carousel/slick/fonts/slick.woff"
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-BxV_q0U4.js",
+    "file": "assets/app-C2rl5Mdr.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
     "css": [
-      "assets/app-ykxjvVVm.css"
+      "assets/app-DSPaZ6gw.css"
     ],
     "assets": [
       "assets/ajax-loader-BcnMEykj.gif",

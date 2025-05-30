@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,8 @@ class WalletController extends Controller
         while ($x < 30) {
             $lastTopup[] = [
                 'name' => $faker->name,
-                'amount' => $faker->randomElement($this->rupiahs())
+                'amount' => $faker->randomElement($this->rupiahs()),
+                'dt' => Carbon::parse($faker->dateTimeBetween('-1 week', '0 days'))->diffForHumans()
             ];
             $x++;
         }

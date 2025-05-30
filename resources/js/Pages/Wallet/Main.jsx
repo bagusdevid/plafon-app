@@ -6,28 +6,54 @@ import {Marquee} from "@devnomic/marquee";
 // import "@devnomic/marquee/dist/index.css";
 
 export default function Main({lastTopup}) {
+
+    // console.log(lastTopup)
+
     return <SiteLayoutV2 title="Dompet">
-        <div className="px-5 lg:px-10 pt-5 lg:pt-10">
+        <div className="px-5 lg:px-10 pt-5 lg:pt-5">
             <Tabs.Root defaultValue="members" fitted>
                 <Tabs.List>
-                    <Tabs.Trigger value="members">
-                        <LuUser />
-                        Rechard records
+                    <Tabs.Trigger value="members" className="px-0 h-auto">
+                        <div className="py-1">
+                            <div className="">
+                                <LuUser className="mx-auto text-[20px]" />
+                            </div>
+                            <div>
+                                Recharge records
+                            </div>
+                        </div>
                     </Tabs.Trigger>
-                    <Tabs.Trigger value="projects">
-                        <LuFolder />
-                        Transaction records
+                    <Tabs.Trigger value="projects" className="px-0 h-auto">
+                        <div className="py-1 text-center">
+                            <div className="">
+                                <LuFolder className="mx-auto text-[20px]" />
+                            </div>
+                            <div>
+                                Transaction records
+                            </div>
+                        </div>
                     </Tabs.Trigger>
-                    <Tabs.Trigger value="tasks">
-                        <LuSquareCheck />
-                        Bank
+                    <Tabs.Trigger value="tasks" className="px-0 h-auto">
+                        <div className="py-1">
+                            <div className="">
+                                <LuSquareCheck className="mx-auto text-[20px]" />
+                            </div>
+                            <div>
+                                Bank
+                            </div>
+                        </div>
                     </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="members">
                     <div className="max-h-[400px] overflow-hidden">
                         <Marquee direction="up" className="gap-[0.3rem]" innerClassName="gap-[0.3rem] [--gap:0.3rem]">
                             {lastTopup.map((lt, key) => {
-                                return <LastCredit key={key} amount={lt.amount} name={lt.name} />
+                                return <LastCredit
+                                    key={key}
+                                    amount={lt.amount}
+                                    name={lt.name}
+                                    dt={lt.dt}
+                                />
                             })}
                         </Marquee>
                     </div>
@@ -41,9 +67,18 @@ export default function Main({lastTopup}) {
     </SiteLayoutV2>
 }
 
-function LastCredit({name, amount}) {
-    return <div className="flex gap-2 border border-solid border-red-500">
-        <div className="font-semibold">{name}</div>
-        <div>{thousandSeparator(amount)}</div>
+function LastCredit({name, amount, dt}) {
+    return <div className="flex justify-between items-center px-3 py-2 bg-neutral-200 rounded-md">
+        <div className="">
+            <div className="font-semibold">
+                {name}
+            </div>
+            <div className="text-sm text-gray-700">
+                {dt}
+            </div>
+        </div>
+        <div>
+            {thousandSeparator(amount)}
+        </div>
     </div>
 }

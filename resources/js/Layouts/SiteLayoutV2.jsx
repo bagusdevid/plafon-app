@@ -19,16 +19,16 @@ export default function SiteLayoutV2({title = 'Default', children}) {
                     <div className="w-[300px]">
                         <div className="flex justify-between mb-3">
                             <div className="font-bold">
-                                mugi
+                                {auth.user.username}
                             </div>
                             <div>
-                                <Badge variant="solid" colorPalette="blue">
+                                <Badge variant="solid" colorPalette="red" size="sm">
                                     VIP0
                                 </Badge>
                             </div>
                         </div>
                         <div className="mb-1">
-                            <Progress.Root>
+                            <Progress.Root colorPalette="red" defaultValue={20} maxW="sm" rounded="full">
                                 <Progress.Track>
                                     <Progress.Range />
                                 </Progress.Track>
@@ -39,17 +39,21 @@ export default function SiteLayoutV2({title = 'Default', children}) {
                         </div>
                     </div>
                     <div className="">
-                        logo
+                        <div className="w-[60px] bg-[#d71921] py-1 rounded-md overflow-hidden">
+                            <img src="/images/logo-red_150.png" alt="" />
+                        </div>
                     </div>
                 </div>
                 <div className="relative flex justify-between z-20">
                     <div>
-                        <div>Balance</div>
-                        <div>IDR 0</div>
+                        <div className="uppercase text-sm text-white/70">Balance</div>
+                        <div className="font-bold text-[18px]">
+                            IDR 220000
+                        </div>
                     </div>
                     <div>
-                        <div>Credit score</div>
-                        <div>0</div>
+                        <div className="uppercase text-sm text-white/70 text-right">Credit score</div>
+                        <div className="font-bold text-[18px] text-right">0</div>
                     </div>
                 </div>
             </div>

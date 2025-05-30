@@ -12,7 +12,7 @@ export default function Avatar({user}) {
         </div>
     }
 
-    return <div className="flex items-center justify-center text-[46px] mx-auto w-[120px] h-[120px] bg-neutral-200 rounded-full">
+    return <div className="flex items-center justify-center text-[46px] mx-auto w-[120px] h-[120px] bg-white rounded-full">
         <FaUser />
     </div>
 }

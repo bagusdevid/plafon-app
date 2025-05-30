@@ -21,8 +21,8 @@ export default function Menus() {
         {items.map((bm, k) => {
 
             if(k === 2) {
-                return <Link href={bm.url} className="text-center text-[40px] -mt-5 bg-red-500 text-white px-1 py-1 rounded-full shadow-xl" key={k}>
-                    {bm.icon}
+                return <Link href={bm.url} className="text-center bg-[#d71921] text-[40px] w-[60px] h-[60px] -mt-5 text-white px-1 py-1 overflow-hidden rounded-full shadow-xl" key={k}>
+                    <img src="/images/logo-red_150.png" className="h-full" alt="" />
                 </Link>
             }
 
