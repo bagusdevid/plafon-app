@@ -15,7 +15,7 @@ import {IoWallet} from "react-icons/io5";
 
 export default function Home({tasks, newsFeeds}) {
 
-    // console.log(newsFeeds)
+    console.log(tasks)
 
     const {flashMessage, site, auth} = useContext(LayoutContext)
 
@@ -86,9 +86,26 @@ export default function Home({tasks, newsFeeds}) {
                             Lorem ipsum dolor sit amet amet ipsum dolor neretivi gooese fran acktuila wiuss pra dumsetra
                         </div>
                     </div>
+                    <div className="bg-red-500 min-h-[100px]">
+                        <div>
+                            {tasks[0].photo_300_path}, {tasks[0].name}
+                        </div>
+                    {tasks.map((task, key) => {
+                        return <div className="px-2" key={key}>
+                            <Link href={`/task/${task.id}`} className="block max-h-[200px] rounded-md overflow-hidden">
+                                <img
+                                    src={task.photo_300_path}
+                                    alt=""
+                                    className="w-full"
+                                />
+                            </Link>
+                        </div>
+                    })}
+                    </div>
                     <Slider
                         autoplay={false}
                         infinite={false}
+                        lazyLoad
                         dots
                         slidesToShow={2}
                         slidesToScroll={1}
