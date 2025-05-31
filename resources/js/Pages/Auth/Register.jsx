@@ -117,6 +117,7 @@ export default function Register({invitation}) {
                             className="border-b-white/20"
                             placeholder="Masukkan Password"
                             variant="flushed"
+                            isDark={false}
                         />
                         <PasswordInput
                             value={data.password_confirmation}
@@ -129,6 +130,7 @@ export default function Register({invitation}) {
                             placeholder="Ulangi Password"
                             variant="flushed"
                             className="border-b-white/20"
+                            isDark={false}
                         />
                         <Input
                             value={data.invitation_code}

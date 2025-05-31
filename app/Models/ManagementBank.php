@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TaskOption extends Model
+class ManagementBank extends Model
 {
     use HasFactory;
 
-    protected $table = 'task_options';
+    protected $table = 'management_banks';
 
     protected $fillable = [
-        'task_id',
-        'icon',
-        'label',
-        'cost'
+        'bank_name',
+        'bank_acc_name',
+        'bank_acc_no',
+        'created_by'
     ];
 }

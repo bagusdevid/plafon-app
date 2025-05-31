@@ -11,6 +11,7 @@ import {BsEnvelopeArrowUp} from "react-icons/bs";
 import {RiCustomerService2Fill} from "react-icons/ri";
 import {IoChevronForwardOutline} from "react-icons/io5";
 import {MdLogout} from "react-icons/md";
+import {thousandSeparator} from "@/Utils/thousandSeparator.jsx";
 
 export default function Main() {
 
@@ -50,14 +51,15 @@ export default function Main() {
                                 Credit
                             </div>
                             <div className="font-bold text-[18px]">
-                                200</div>
+                                0</div>
                         </div>
                         <div>
                             <div className="uppercase text-[12px] text-right text-white/70">
                                 Balance
                             </div>
                             <div className="font-bold text-[18px]">
-                                220000</div>
+                                {thousandSeparator(auth.user.balance)}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,11 +67,11 @@ export default function Main() {
                     {menus.map((menu,key) => {
                         const borderBClass = key+1 < menus.length ? 'border-b border-solid border-b-neutral-200' : '';
                         return <li key={key}>
-                            <Link href={menu.url} method={key === menus.length - 1 ? 'post' : 'get'} as={key === menus.length - 1 ? 'button' : 'a'} className={`flex items-center gap-3 py-3 ${borderBClass}`}>
+                            <Link href={menu.url} method={key === menus.length - 1 ? 'post' : 'get'} as={key === menus.length - 1 ? 'button' : 'a'} className={`flex w-full cursor-pointer items-center gap-3 py-3 ${borderBClass}`}>
                                 <div>
                                     {menu.icon}
                                 </div>
-                                <div className="flex-1">
+                                <div className="flex-1 text-left">
                                     {menu.label}
                                 </div>
                                 <div>

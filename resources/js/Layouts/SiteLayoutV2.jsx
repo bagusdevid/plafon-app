@@ -2,14 +2,41 @@ import {Head} from "@inertiajs/react";
 import AdvancedMenu from "@/Components/Profile/AdvancedMenu.jsx";
 import Menus from "@/Components/Menus.jsx";
 import { Progress, Badge } from "@chakra-ui/react"
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {LayoutContext} from "@/Layouts/Layout.jsx";
+import FloatingMessage from "@/Components/FloatingMessage.jsx";
+import {thousandSeparator} from "@/Utils/thousandSeparator.jsx";
 
 export default function SiteLayoutV2({title = 'Default', children}) {
 
     const {flashMessage, site, auth} = useContext(LayoutContext)
 
+    const [alert, setAlert] = useState({
+        show: false,
+        status: 'success',
+        message: ''
+    })
+
+    useEffect(() => {
+        if(flashMessage) {
+
+            setAlert({show: true, status: 'success', message: flashMessage})
+
+            const timeoutId = setTimeout(() => {
+                setAlert({show: false, status: 'success', message: flashMessage})
+            }, 5000);
+
+            return () => clearTimeout(timeoutId);
+        }
+    }, [flashMessage])
+
     return <>
+        <FloatingMessage
+            show={alert.show}
+            status={alert.status}
+        >
+            {alert.message}
+        </FloatingMessage>
         <Head title={title} />
         <div className="bg-neutral-200 w-full lg:w-[600px] mx-auto relative">
             <div className="bg-[url('/images/Emirates_Boeing777.jpg')] relative bg-cover bg-center pt-3 px-5 h-[240px] bg-neutral-200 text-white">
@@ -48,7 +75,7 @@ export default function SiteLayoutV2({title = 'Default', children}) {
                     <div>
                         <div className="uppercase text-sm text-white/70">Balance</div>
                         <div className="font-bold text-[18px]">
-                            IDR 220000
+                            {thousandSeparator(auth.user.balance)}
                         </div>
                     </div>
                     <div>

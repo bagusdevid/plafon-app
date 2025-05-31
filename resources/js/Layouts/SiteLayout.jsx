@@ -12,7 +12,7 @@ import {IoSkullOutline} from "react-icons/io5";
 import Menus from "@/Components/Menus.jsx";
 import AdvancedMenu from "@/Components/Profile/AdvancedMenu.jsx";
 
-export default function SiteLayout({title = 'Default', leftNav = null, children}) {
+export default function SiteLayout({title = 'Default', showMenu = false, leftNav = null, rightNav = null, children}) {
 
     const {flashMessage, site, auth} = useContext(LayoutContext)
 
@@ -72,13 +72,14 @@ export default function SiteLayout({title = 'Default', leftNav = null, children}
                             {title}
                         </div>
                         <div>
-                            {auth.user ? <AdvancedMenu onNavbar /> : ''}
+                            {/*{auth.user ? <AdvancedMenu onNavbar /> : ''}*/}
+                            {rightNav ? rightNav : ''}
                         </div>
                     </div>
                     <div className="pb-[90px] min-h-[calc(100vh_-_60px)]">
                         {children}
                     </div>
-                    {auth.user ? <Menus /> : ''}
+                    {showMenu ? <Menus /> : ''}
                 </div>
 
     </>

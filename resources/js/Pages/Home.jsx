@@ -9,14 +9,15 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css'
 import {BsThreeDots} from "react-icons/bs";
 import {IoWallet} from "react-icons/io5";
+import {thousandSeparator} from "@/Utils/thousandSeparator.jsx";
 
 export default function Home({tasks, newsFeeds}) {
 
     const {flashMessage, site, auth} = useContext(LayoutContext)
 
     const shortcuts = [
-        {label: 'Top Up', url: '#', icon: <FaPlus />},
-        {label: 'Redeem', url: '', icon: <FaArrowDown />},
+        {label: 'Top Up', url: '/top-up', icon: <FaPlus />},
+        {label: 'Withdraw', url: '/withdraw', icon: <FaArrowDown />},
         {label: 'Lainnya', url: '', icon: <BsThreeDots />},
     ]
 
@@ -50,13 +51,13 @@ export default function Home({tasks, newsFeeds}) {
                                 {auth.user.username}
                             </div>
                             <div className="text-sm">
-                                Rp 200.000
+                                {thousandSeparator(auth.user.balance)}
                             </div>
                         </div>
                     </div>
                     <div className="flex gap-5">
                         {shortcuts.map((shortcut, key) => {
-                           return <Link href="#" key={key} className="text-center">
+                           return <Link href={shortcut.url} key={key} className="text-center">
                                <div className="w-[24px] h-[24px] mx-auto flex justify-center items-center text-white rounded-full bg-[#d71921] mb-1">
                                    {shortcut.icon}
                                </div>

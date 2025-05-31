@@ -114,6 +114,7 @@ export default function Login() {
                             placeholder="Password"
                             variant="flushed"
                             className="border-none"
+                            isDark={false}
                         />
                     </Stack>
                     <div>

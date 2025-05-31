@@ -17,7 +17,7 @@ export default function Menus() {
         {label: 'Akun', url: '/profile', icon: <FiUser className="mx-auto" />},
     ]
 
-    return <div className="flex items-center justify-around fixed left-1/2 transform -translate-x-1/2 bottom-0 z-30 w-full lg:w-[600px] h-[50px] bg-white border-t border-solid border-r-neutral-300 shadow-[-1px_-1px_11px_0px_rgba(0,0,0,0.1)]">
+    return <div className="flex items-center justify-around fixed left-1/2 transform -translate-x-1/2 bottom-0 z-30 w-full lg:w-[600px] h-[50px] bg-white border-t border-solid border-t-neutral-300 shadow-[-1px_-1px_11px_0px_rgba(0,0,0,0.1)]">
         {items.map((bm, k) => {
 
             if(k === 2) {

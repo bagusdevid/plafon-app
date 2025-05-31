@@ -16,17 +16,24 @@ use Inertia\Inertia;
 Route::middleware([\App\Http\Middleware\CheckDomainIsValid::class, 'auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/vip', [\App\Http\Controllers\VipController::class, 'index']);
+
     Route::get('/wallet', [\App\Http\Controllers\WalletController::class, 'index']);
+    Route::post('/wallet/addBank', [\App\Http\Controllers\WalletController::class, 'addBank']);
+    Route::put('/wallet/{id}', [\App\Http\Controllers\WalletController::class, 'update']);
+    Route::delete('/wallet/{sheepBank}', [\App\Http\Controllers\WalletController::class, 'destroyBank']);
+
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index']);
     Route::get('/profile/edit', [\App\Http\Controllers\ProfileController::class, 'edit']);
     Route::match(['get','put'],'/profile/change-password', [\App\Http\Controllers\ProfileController::class, 'changePasswd']);
     Route::match(['get','post'],'/profile/change-avatar', [\App\Http\Controllers\ProfileController::class, 'changeAvatar']);
     Route::put('/profile/{id}', [\App\Http\Controllers\ProfileController::class, 'update']);
+    Route::put('/profile/changeField/{id}', [\App\Http\Controllers\ProfileController::class, 'updateChangeField']);
 
     Route::get('/top-up', [\App\Http\Controllers\TopupController::class, 'index']);
 
     Route::get('/task/{id}', [\App\Http\Controllers\TaskController::class, 'detail']);
     Route::post('/task/getTaskCode', [\App\Http\Controllers\TaskController::class, 'getTaskCode']);
+    Route::post('/task/bet', [\App\Http\Controllers\TaskController::class, 'bet']);
 
     Route::get('/withdraw', [\App\Http\Controllers\WithdrawController::class, 'index']);
 

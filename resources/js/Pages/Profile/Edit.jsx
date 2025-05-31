@@ -1,5 +1,5 @@
 import SiteLayout from "@/Layouts/SiteLayout.jsx";
-import {FaCheck, FaMinus, FaUser} from "react-icons/fa6";
+import {FaCheck, FaChevronLeft, FaChevronRight, FaMinus, FaUser} from "react-icons/fa6";
 import {Field, Input, Fieldset, Editable, Button} from "@chakra-ui/react";
 import {useContext} from "react";
 import {LayoutContext} from "@/Layouts/Layout.jsx";
@@ -7,11 +7,12 @@ import {Link, useForm} from "@inertiajs/react";
 import {FiEdit} from "react-icons/fi";
 import {CustomField} from "@/Components/Forms/CustomField.jsx";
 import Avatar from "@/Components/Profile/Avatar.jsx";
+import {IoChevronForward} from "react-icons/io5";
 
 export default function Edit() {
 
     const {auth, site} = useContext(LayoutContext)
-    // console.log(site)
+    // console.log(auth)
 
     const initialValues = {
         id: auth.user.id,
@@ -29,15 +30,36 @@ export default function Edit() {
         {label: 'Telepon', keyValue: 'phone'},
     ]
 
+    const handlePersonalChange = (value, field) => {
+        // console.log(value, field)
+        axios.put(`/profile/changeField/${initialValues.id}`, {[field]: value, field, value})
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         put(`/profile/${auth.user.id}`)
     }
 
-    return <SiteLayout title="Personal Info">
+    const handleAvatarChange = (photo) => {
+        // console.log(photo)
+        axios.post('/profile/change-avatar', {photo}, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+    }
+
+    return <SiteLayout
+        leftNav={<Link href="/profile"><FaChevronLeft /></Link>}
+        title="Personal Info"
+    >
         <div className="bg-neutral-200 flex gap-5 items-center py-5 px-7">
             <div className="flex-1">
-                <Avatar user={auth.user} />
+                <Avatar isEditable user={auth.user} onChange={(e) => handleAvatarChange(e.target.files[0])} />
             </div>
             <div className="flex-1">
                 <h3 className="font-bold">
@@ -72,13 +94,29 @@ export default function Edit() {
                             {edit.label}
                         </div>
                         <div>
-                            <Editable.Root textAlign="end" defaultValue={data[edit.keyValue]}>
+                            <Editable.Root
+                                textAlign="end"
+                                onClick={(e) => e.stopPropagation()}
+                                value={data[edit.keyValue]}
+                                onChange={(e) => setData(edit.keyValue, e.target.value)}
+                                onBlur={(e) => handlePersonalChange(e.target.value, edit.keyValue)}
+                            >
                                 <Editable.Preview />
                                 <Editable.Input />
                             </Editable.Root>
                         </div>
                     </li>
                 })}
+                <li className="border-b border-solid border-b-neutral-200">
+                    <Link href="/profile/change-password" className="py-3 flex items-center justify-between">
+                        <div>
+                            Password
+                        </div>
+                        <div>
+                            <FaChevronRight />
+                        </div>
+                    </Link>
+                </li>
             </ul>
         </div>
     </SiteLayout>

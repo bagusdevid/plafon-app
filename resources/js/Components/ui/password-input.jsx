@@ -21,6 +21,7 @@ export const PasswordInput = React.forwardRef(
             visible: visibleProp,
             onVisibleChange,
             visibilityIcon = { on: <LuEye />, off: <LuEyeOff /> },
+            isDark = true,
             ...rest
         } = props
 
@@ -43,6 +44,7 @@ export const PasswordInput = React.forwardRef(
                             e.preventDefault()
                             setVisible(!visible)
                         }}
+                        className={`${isDark ? '' : 'text-white/40 pl-4'}`}
                     >
                         {visible ? visibilityIcon.off : visibilityIcon.on}
                     </VisibilityTrigger>
@@ -72,7 +74,6 @@ const VisibilityTrigger = React.forwardRef(
                 unstyled
                 height='calc(100% - {spacing.2})'
                 aria-label='Toggle password visibility'
-                className="text-white/40 pl-4"
                 {...props}
             />
         )

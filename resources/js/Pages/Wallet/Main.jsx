@@ -1,13 +1,21 @@
 import SiteLayoutV2 from "@/Layouts/SiteLayoutV2.jsx";
-import { Tabs } from "@chakra-ui/react"
+import {Button, Input, Tabs, NativeSelect, Field} from "@chakra-ui/react"
 import { LuFolder, LuSquareCheck, LuUser } from "react-icons/lu"
 import {thousandSeparator} from "@/Utils/thousandSeparator.jsx";
 import {Marquee} from "@devnomic/marquee";
+import {CustomField} from "@/Components/Forms/CustomField.jsx";
+import {useContext, useState} from "react";
+import {useForm} from "@inertiajs/react";
+import {FaEdit, FaTrashAlt} from "react-icons/fa";
+import AccBank from "@/Components/AccBank.jsx";
+import {LayoutContext} from "@/Layouts/Layout.jsx";
 // import "@devnomic/marquee/dist/index.css";
 
-export default function Main({lastTopup}) {
+export default function Main({lastTopup, bank}) {
 
     // console.log(lastTopup)
+
+    const {auth} = useContext(LayoutContext)
 
     return <SiteLayoutV2 title="Dompet">
         <div className="px-5 lg:px-10 pt-5 lg:pt-5">
@@ -58,9 +66,13 @@ export default function Main({lastTopup}) {
                         </Marquee>
                     </div>
                 </Tabs.Content>
-                <Tabs.Content value="projects">Manage your projects</Tabs.Content>
+                <Tabs.Content value="projects">
+                    Manage your projects
+                </Tabs.Content>
                 <Tabs.Content value="tasks">
-                    Manage your tasks for freelancers
+
+                    <AccBank bank={bank} />
+
                 </Tabs.Content>
             </Tabs.Root>
         </div>

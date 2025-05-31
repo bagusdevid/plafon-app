@@ -1,34 +1,42 @@
 import SiteLayout from "@/Layouts/SiteLayout.jsx";
 import {CustomField} from "@/Components/Forms/CustomField.jsx";
-import {Button, Input} from "@chakra-ui/react";
+import {Button, Field, Input, NativeSelect} from "@chakra-ui/react";
+import {Link} from "@inertiajs/react";
+import {FaChevronLeft} from "react-icons/fa6";
+import {useContext, useState} from "react";
+import {LayoutContext} from "@/Layouts/Layout.jsx";
+import {thousandSeparator} from "@/Utils/thousandSeparator.jsx";
+import AccBank from "@/Components/AccBank.jsx";
 
-export default function Main() {
-    return <SiteLayout>
+export default function Main({bank}) {
+
+    const {auth} = useContext(LayoutContext)
+
+    return <SiteLayout
+        leftNav={<Link href="/profile"><FaChevronLeft /></Link>}
+        title="Withdraw"
+    >
         <div className="text-center py-10">
             <div className="font-bold text-[28px]">
-                220.000
+                {thousandSeparator(auth.user.balance)}
             </div>
-            <div>
+            <div className="text-sm text-gray-500">
                 Account balance
             </div>
         </div>
+        <div className="px-5 mb-5">
+            <CustomField label="Jumlah">
+                <Input
+                    type="text"
+                    size="lg"
+                    placeholder="Masukkan jumlah yang akan ditarik"
+                />
+            </CustomField>
+        </div>
         <div className="px-5">
-            <div className="mb-5">
-                <CustomField label="Jumlah">
-                    <Input
-                        type="text"
-                        size="lg"
-                        placeholder="Masukkan jumlah yang akan ditarik"
-                    />
-                </CustomField>
-            </div>
-            <div className="border border-solid border-neutral-300 rounded-md px-5 py-5 mb-5">
-                <h3>Bank Mandiri</h3>
-                <div>133023200323203</div>
-                <div>a.n. Tubagus GP</div>
-            </div>
-            <div>
-                <Button type="button" size="lg" colorPalette="red" className="w-full">
+            <AccBank bank={bank} />
+            <div className="mt-5">
+                <Button type="button" colorPalette="red" className="w-full">
                     Withdraw
                 </Button>
             </div>

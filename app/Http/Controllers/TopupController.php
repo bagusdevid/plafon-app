@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ManagementBank;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
@@ -13,9 +14,6 @@ class TopupController extends Controller
 {
     public function index()
     {
-//        $data['qr'] = QrCode::generate('Hallo bro');
-        $data['aku'] = 'Aku';
-
         $text = 'Hello world';
         $renderer = new ImageRenderer(
             new RendererStyle(400),
@@ -25,6 +23,9 @@ class TopupController extends Controller
         $data['qr'] = $writer->writeString($text);
 
 //        dd($data['qr']);
+
+        $data['banks'] = ManagementBank::orderBy('bank_name', 'ASC')
+            ->get();
 
         return inertia('Topup/Main', $data);
     }

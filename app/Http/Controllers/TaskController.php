@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sheep;
 use App\Models\Task;
+use App\Models\TaskPlayed;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -47,6 +50,36 @@ class TaskController extends Controller
             ->first();
 
         return inertia('Task/Inside', $data);
+    }
+
+    public function bet(Request $request)
+    {
+        $balance = Auth::user()['balance'];
+        $newtotal = $balance - $request->expense['total'];
+
+        $taskPlayed = TaskPlayed::create([
+                'sheep_id' => Auth::user()['id'],
+                'code' => $request->code,
+                'task_id' => $request->task_id,
+                'bet' => json_encode($request->expense['bet']),
+                'bet_options' => json_encode($request->bet_options),
+                'total' => $request->expense['total']
+            ]);
+        Sheep::where('id', Auth::user()['id'])
+            ->update([
+                'balance' => $newtotal
+            ]);
+
+        return response()
+            ->json([
+                'success' => true,
+                'currentBalance' => $newtotal,
+                'prev' => [
+                    "code" => $request->code,
+                    "expense" => $request->expense,
+                    "options" => $request->bet_options
+                ]
+            ]);
     }
 
     public function getTaskCode()

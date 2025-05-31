@@ -48,6 +48,32 @@ class ProfileController extends Controller
             ->with('message', 'Data berhasil diubah.');
     }
 
+    public function updateChangeField(Request $request, Sheep $sheep)
+    {
+        $req_validate = ['name','username','email'];
+
+        if(in_array($request->field, $req_validate)) {
+            $validate = [];
+            $validate[$request->field] = match ($request->field) {
+                'name' => 'required',
+                'username' => 'required|string|lowercase|max:255|unique:' . Sheep::class,
+                'email' => 'required|string|lowercase|email|max:255|unique:' . Sheep::class,
+                default => '',
+            };
+            $request->validate($validate);
+        }
+
+        $update = $sheep::where('id', $request->id)
+            ->update([
+                $request->field => $request->value,
+            ]);
+
+        return response()
+            ->json([
+                'success' => $update,
+            ]);
+    }
+
     public function changePasswd(Request $request)
     {
         if($request->isMethod('put')) {
@@ -90,14 +116,19 @@ class ProfileController extends Controller
             Storage::put('photos/' . $random . '_std.' . $upload->getClientOriginalExtension(),
             $image_300->encodeByExtension($upload->getClientOriginalExtension()));
 
-            Sheep::where('id', Auth::user()['id'])
+            $update = Sheep::where('id', Auth::user()['id'])
                 ->update([
                     'photo' => $random . '.' . $upload->getClientOriginalExtension()
                 ]);
 
-            return redirect()
-                ->to('/profile')
-                ->with('message', 'Photo berhasil diubah.');
+//            return redirect()
+//                ->to('/profile')
+//                ->with('message', 'Photo berhasil diubah.');
+
+            return response()
+                ->json([
+                    'success' => $update
+                ]);
         }
 
         return inertia('Profile/ChangeAvatar');

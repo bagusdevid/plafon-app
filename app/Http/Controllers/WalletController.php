@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ManagementBank;
+use App\Models\Sheep;
+use App\Models\SheepBank;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WalletController extends Controller
 {
@@ -24,7 +28,59 @@ class WalletController extends Controller
         }
 
         $data['lastTopup'] = $lastTopup;
+        $data['bank'] = SheepBank::where('sheep_id', Auth::user()['id'])
+            ->get()
+            ->first();
+
         return inertia('Wallet/Main', $data);
+    }
+
+    public function addBank(Request $request)
+    {
+        if($request->isMethod('post')) {
+            $request->validate([
+                'bank_name' => ['required'],
+                'bank_acc_name' => ['required'],
+                'bank_acc_no' => ['required'],
+            ]);
+
+            SheepBank::create([
+                'sheep_id' => Auth::user()['id'],
+                'bank_name' => $request->bank_name,
+                'bank_acc_no' => $request->bank_acc_no,
+                'bank_acc_name' => $request->bank_acc_name,
+            ]);
+
+            return back()
+                ->with('message', 'Data successfully added.');
+        }
+    }
+
+    public function update(Request $request, SheepBank $sheepBank)
+    {
+        $request->validate([
+            'bank_name' => ['required'],
+            'bank_acc_name' => ['required'],
+            'bank_acc_no' => ['required'],
+        ]);
+
+        $sheepBank::where('id', $request->id)
+            ->update([
+                'bank_name' => $request->bank_name,
+                'bank_acc_no' => $request->bank_acc_no,
+                'bank_acc_name' => $request->bank_acc_name
+            ]);
+
+        return back()
+            ->with('message', 'Data berhasil diubah.');
+    }
+
+    public function destroyBank(SheepBank $sheepBank)
+    {
+        $sheepBank->delete();
+
+        return back()
+            ->with('message', 'Data successfully deleted.');
     }
 
     private function rupiahs()

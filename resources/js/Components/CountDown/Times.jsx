@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-export function Times({minutes, setTaskSession}) {
+export function Times({minutes, sess}) {
     const [initialTime, setInitialTime] = useState(null)
     const [timeRemaining, setTimeRemaining] = useState(0);
 
@@ -25,18 +25,24 @@ export function Times({minutes, setTaskSession}) {
 
                 if (remainingTime <= 0) {
                     // remainingTime = eventTime - currentTime;
-                    setInitialTime(addMinutes(new Date(), minutes).getTime())
-                    setTaskSession(true)
+                    // setInitialTime(addMinutes(new Date(), minutes).getTime())
+                    sess.setTaskSession(true)
                     // remainingTime = 0;
                     // clearInterval(countdownInterval);
                     // alert("Countdown complete!");
                 }
 
                 setTimeRemaining(remainingTime);
-            }, 1000);
+            }, 10);
 
             return () => clearInterval(countdownInterval);
     }, [timeRemaining]);
+
+    useEffect(() => {
+        if(sess.taskSession) {
+            setInitialTime(addMinutes(new Date(), minutes).getTime())
+        }
+    }, [sess.taskSession])
 
     const formatTime = (time) => {
         const seconds = Math.floor((time / 1000) % 60);
