@@ -148,7 +148,7 @@ export default function Inside({task}) {
                 </div>
                 <div>
                     <div className="text-right uppercase text-[12px] text-gray-600">Remaining</div>
-                    <Times minutes={1} sess={{taskSession, setTaskSession}} />
+                    <Times minutes={task.time_limit} sess={{taskSession, setTaskSession}} />
                 </div>
             </div>
             {prevRightAnswer.code ? <PrevReport answers={prevRightAnswer} /> : ''}
