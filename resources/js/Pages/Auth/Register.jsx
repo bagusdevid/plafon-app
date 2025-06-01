@@ -1,14 +1,14 @@
 import {useContext, useEffect, useState} from "react";
 import {LayoutContext} from "@/Layouts/Layout.jsx";
 import {Head, Link, useForm} from "@inertiajs/react";
-import AdvancedMenu from "@/Components/Profile/AdvancedMenu.jsx";
-import Menus from "@/Components/Menus.jsx";
 import {Button, Input, Stack} from "@chakra-ui/react";
 import {PasswordInput} from "@/Components/ui/password-input.jsx";
 import {RiCustomerService2Line} from "react-icons/ri";
 import {MdHelpOutline} from "react-icons/md";
 
-export default function Register({invitation}) {
+export default function Register({referralCode}) {
+
+    console.log(referralCode)
 
     const {site, errors: loginErrors, flashData} = useContext(LayoutContext);
 
@@ -35,7 +35,7 @@ export default function Register({invitation}) {
         username: '',
         password: '',
         password_confirmation: '',
-        invitation_code: invitation,
+        invitation_code: referralCode,
     }
     const {data, setData, post, errors, processing} = useForm(initialValues)
 

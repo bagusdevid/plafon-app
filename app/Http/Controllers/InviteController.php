@@ -9,7 +9,8 @@ class InviteController extends Controller
 {
     public function index()
     {
-        $data['ref_url'] = url('/') . '?referralCode=' . Auth::user()['referral_code'];
+        $data['ref_url'] = url('/register') . '?referralCode=' . Auth::user()['referral_code'];
+
         return inertia('Invite/Main', $data);
     }
 }

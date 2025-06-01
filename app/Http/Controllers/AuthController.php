@@ -55,17 +55,23 @@ class AuthController extends Controller
                 'invitation_code' => ['required']
             ]);
 
-            if(!$this->checkInvitationCode($request->invitation_code)) {
+            $invitationChecked = $this->checkInvitationCode($request->invitation_code);
+
+            if(!$invitationChecked['isExist']) {
                 return back()
                     ->with('data', 'Invitation code tidak terdaftar atau kadaluarsa.');
             }
+
+            $code = fake()->regexify('[A-Z0-9]{9}');
 
             $sheep = Sheep::create([
                 'name' => $request->name,
 //                'email' => $request->email,
                 'username' => $request->username,
 //                'phone' => $request->phone,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'referral_code' => $code,
+                'referred_by' => $invitationChecked['referred_by']
             ]);
 
             return redirect()
@@ -73,11 +79,30 @@ class AuthController extends Controller
                 ->with('message', 'Registrasi berhasil. Silahkan login');
         }
 
-        $invitation = '';
-        if($request->has('invitation') && $request->filled('invitation')) {
-            $invitation = $this->codeDecrypter($request->invitation) ? $this->codeDecrypter($request->invitation) : '';
+//        $invitation = '';
+//        if($request->has('invitation') && $request->filled('invitation')) {
+//            $invitation = $this->codeDecrypter($request->invitation) ? $this->codeDecrypter($request->invitation) : '';
+//        }
+//        $data['invitation'] = $invitation;
+
+        $referralCode = '';
+        if($request->has('referralCode') && $request->filled('referralCode')) {
+            $query = SiteInvitation::where('site_id', $this->getSiteId())
+                ->where('code', $request->referralCode)
+                ->get();
+            if($query->count() > 0) {
+                $referralCode = $request->referralCode;
+            } else {
+                $query2 = Sheep::where('referral_code', $request->referralCode)
+                    ->get();
+                if($query2->count() > 0) {
+                    $referralCode = $request->referralCode;
+                } else {
+                    $referralCode = '';
+                }
+            }
         }
-        $data['invitation'] = $invitation;
+        $data['referralCode'] = $referralCode;
 
         return inertia('Auth/Register', $data);
     }
@@ -158,11 +183,27 @@ class AuthController extends Controller
             ->get();
 
         if($query->count() > 0) {
-            $query = $query->first();
-            return $this->codeIsValid($query->valid_start, $query->valid_end);
+//            $query = $query->first();
+//            return $this->codeIsValid($query->valid_start, $query->valid_end);
+            return [
+                'isExist' => true,
+                'referred_by' => 0,
+            ];
         }
 
-        return false;
+        $query2 = Sheep::where('referral_code', $code)
+                ->get();
+        if($query2->count() > 0) {
+            return [
+                'isExist' => true,
+                'referred_by' => $query2->first()->id,
+            ];
+        }
+
+        return [
+            'isExist' => false,
+            'referred_by' => 0
+        ];
     }
 
     private function codeIsValid($valid_start, $valid_end) {

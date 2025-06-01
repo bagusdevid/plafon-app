@@ -23,7 +23,8 @@ class Sheep extends Authenticatable
         'photo',
         'balance',
         'credit',
-        'referral_code'
+        'referral_code',
+        'referred_by'
     ];
 
     protected $hidden = [
